@@ -86,7 +86,7 @@ describe('basic-auth routes', () => {
       user: user1._id
     });
 
-    await Bid.create({
+    const bid1 = await Bid.create({
       accepted: false,
       quantity: 30,
       price: 50,
@@ -95,27 +95,26 @@ describe('basic-auth routes', () => {
     });
 
     return request(app)
-      .get(`/api/v1/bids/${user2._id}`)
+      .get(`/api/v1/bids/${bid1._id}`)
       .then(res => {
         expect(res.body).toEqual({
-          _id: expect.anything(),
-          accepted: false,
+          _id: expect.any(String),
           quantity: expect.any(Number),
           price: expect.any(Number),
           user: {
-            id: expect.any(String),
             _id: expect.anything(),
             email: 'jj@gmail.com'
           },
           auction: {
-            id: expect.any(String),
+            _id: expect.anything(),
+            bids: [],
             title: expect.any(String),
             description: expect.any(String),
             quantity: expect.any(Number),
             endDate: expect.any(String),
-            user: user1._id
-          },
-          __v: 0
+            user: user1._id.toString(),
+            __v: 0
+          }
         });
       });
   });
