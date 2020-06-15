@@ -23,7 +23,7 @@ describe('basic-auth routes', () => {
     return mongod.stop();
   });
 
-  it('creates an action', async() => {
+  it('creates an auction', async() => {
     const user1 = await User.create({
       email: 'jj@gmail.com',
       password: 'jjissupercool'
@@ -35,6 +35,7 @@ describe('basic-auth routes', () => {
         title: 'The First Auction!',
         description: 'This is the first auction!',
         quantity: 25,
+        endDate: Date.now(),
         user: user1._id
       }).then(res => {
         expect(res.body).toEqual({
@@ -42,7 +43,9 @@ describe('basic-auth routes', () => {
           title: expect.any(String),
           description: expect.any(String),
           quantity: expect.any(Number),
-          user: user1._id,
+          endDate: expect.any(String),
+          bids: [],
+          user: user1._id.toString(),
           __v: 0
         });
       });
