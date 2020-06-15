@@ -21,7 +21,7 @@ describe('basic-auth routes', () => {
     return mongod.stop();
   });
 
-  it('gets the details of a bottle by populating product information', async() => {
+  it('creates a user', async() => {
     return request(app)
       .post('/api/v1/users/')
       .send({
