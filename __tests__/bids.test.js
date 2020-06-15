@@ -8,6 +8,7 @@ const app = require('../lib/app');
 
 const User = require('../lib/models/User');
 const Auction = require('../lib/models/Auction');
+const Bid = require('../lib/models/Bid');
 
 describe('basic-auth routes', () => {
   beforeAll(async() => {
@@ -59,8 +60,61 @@ describe('basic-auth routes', () => {
           accepted: false,
           quantity: expect.any(Number),
           price: expect.any(Number),
-          user: user2._id,
-          auction: auction1._id,
+          user: user2._id.toString(),
+          auction: auction1._id.toString(),
+          __v: 0
+        });
+      });
+  });
+
+  it('gets a bid by id', async() => {
+    const user1 = await User.create({
+      email: 'jj@gmail.com',
+      password: 'jjissupercool'
+    });
+
+    const user2 = await User.create({
+      email: 'jj@gmail.com',
+      password: 'jjissupercool'
+    });
+
+    const auction1 =  await Auction.create({
+      title: 'The First Auction!',
+      description: 'This is the first auction!',
+      quantity: 25,
+      endDate: Date.now(),
+      user: user1._id
+    });
+
+    await Bid.create({
+      accepted: false,
+      quantity: 30,
+      price: 50,
+      user: user2._id,
+      auction: auction1._id
+    });
+
+    return request(app)
+      .get(`/api/v1/bids/${user2._id}`)
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: expect.anything(),
+          accepted: false,
+          quantity: expect.any(Number),
+          price: expect.any(Number),
+          user: {
+            id: expect.any(String),
+            _id: expect.anything(),
+            email: 'jj@gmail.com'
+          },
+          auction: {
+            id: expect.any(String),
+            title: expect.any(String),
+            description: expect.any(String),
+            quantity: expect.any(Number),
+            endDate: expect.any(String),
+            user: user1._id
+          },
           __v: 0
         });
       });
