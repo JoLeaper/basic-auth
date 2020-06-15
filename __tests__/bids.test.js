@@ -119,7 +119,7 @@ describe('basic-auth routes', () => {
       });
   });
 
-  it('gets a bid by id', async() => {
+  it('deletes bid by id', async() => {
     const user1 = await User.create({
       email: 'jj@gmail.com',
       password: 'jjissupercool'
@@ -151,14 +151,16 @@ describe('basic-auth routes', () => {
       .then(res => {
         expect(res.body).toEqual({
           _id: expect.any(String),
+          accepted: expect.any(Boolean),
           quantity: expect.any(Number),
           price: expect.any(Number),
           user: user2._id.toString(),
-          auction: auction1._id.toString()
+          auction: auction1._id.toString(),
+          __v: 0
+        });
       });
   });
 });
-
 // accepted: {
 //   type: Boolean,
 //   required: true
@@ -191,4 +193,4 @@ describe('basic-auth routes', () => {
 // ref: 'User',
 // localField: '_id',
 // foreignField: 'bids'
-// });
+// })
