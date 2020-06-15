@@ -83,10 +83,8 @@ describe('basic-auth routes', () => {
           quantity: expect.any(Number),
           endDate: expect.any(String),
           bids: [],
-          user: {
-            _id: expect.anything(),
-            email: expect.any(String),
-          }
+          user: user1._id.toString(),
+          __v: 0
         },
         {
           _id: expect.anything(),
@@ -95,30 +93,37 @@ describe('basic-auth routes', () => {
           quantity: expect.any(Number),
           endDate: expect.any(String),
           bids: [],
-          user: {
-            _id: expect.anything(),
-            email: expect.any(String),
-          }
+          user: user1._id.toString(),
+          __v: 0
         }]);
       });
   });
 
   
-  it('creates an auction', async() => {
+  it('gets a singular auction', async() => {
     const user1 = await User.create({
       email: 'jj@gmail.com',
       password: 'jjissupercool'
     });
 
+    const auction1 = await Auction.create({
+      title: 'The First Auction!',
+      description: 'This is the first auction!',
+      quantity: 25,
+      endDate: Date.now(),
+      user: user1._id
+    });
+    const auction2 = await Auction.create({
+      title: 'The SECOND Auction!',
+      description: 'This is the SECOND auction!',
+      quantity: 25,
+      endDate: Date.now(),
+      user: user1._id
+    });
+
     return request(app)
-      .post('/api/v1/auctions/')
-      .send({
-        title: 'The First Auction!',
-        description: 'This is the first auction!',
-        quantity: 25,
-        endDate: Date.now(),
-        user: user1._id
-      }).then(res => {
+      .get(`/api/v1/auctions/${auction1._id}`)
+      .then(res => {
         expect(res.body).toEqual({
           _id: expect.anything(),
           title: expect.any(String),
@@ -126,8 +131,10 @@ describe('basic-auth routes', () => {
           quantity: expect.any(Number),
           endDate: expect.any(String),
           bids: [],
-          user: user1._id.toString(),
-          __v: 0
+          user: {
+            _id: expect.anything(),
+            email: expect.any(String),
+          }
         });
       });
   });
@@ -154,3 +161,16 @@ describe('basic-auth routes', () => {
 //   type: Schema.Types.ObjectId,
 //   ref: 'Bid'
 // }],
+
+
+// {
+//   _id: expect.anything(),
+//   title: expect.any(String),
+//   description: expect.any(String),
+//   quantity: expect.any(Number),
+//   endDate: expect.any(String),
+//   bids: [],
+//   user: {
+//     _id: expect.anything(),
+//     email: expect.any(String),
+//   }
