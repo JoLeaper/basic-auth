@@ -83,8 +83,10 @@ describe('basic-auth routes', () => {
           quantity: expect.any(Number),
           endDate: expect.any(String),
           bids: [],
-          user: user1._id.toString(),
-          __v: 0
+          user: {
+            _id: expect.anything(),
+            email: expect.any(String),
+          }
         },
         {
           _id: expect.anything(),
@@ -93,8 +95,10 @@ describe('basic-auth routes', () => {
           quantity: expect.any(Number),
           endDate: expect.any(String),
           bids: [],
-          user: user1._id.toString(),
-          __v: 0
+          user: {
+            _id: expect.anything(),
+            email: expect.any(String),
+          }
         }]);
       });
   });
