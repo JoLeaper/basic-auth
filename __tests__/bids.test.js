@@ -20,4 +20,14 @@ describe('basic-auth routes', () => {
     await mongoose.connection.close();
     return mongod.stop();
   });
+
+  
+  // it('creates a bid', async() => {
+    
+  //   return request(app)
+  //     .post('/api/v1/auctions/')
+  //     .send({
+
+  //     });
+  // });
 });
