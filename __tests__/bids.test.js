@@ -118,6 +118,45 @@ describe('basic-auth routes', () => {
         });
       });
   });
+
+  it('gets a bid by id', async() => {
+    const user1 = await User.create({
+      email: 'jj@gmail.com',
+      password: 'jjissupercool'
+    });
+
+    const user2 = await User.create({
+      email: 'jj@gmail.com',
+      password: 'jjissupercool'
+    });
+
+    const auction1 =  await Auction.create({
+      title: 'The First Auction!',
+      description: 'This is the first auction!',
+      quantity: 25,
+      endDate: Date.now(),
+      user: user1._id
+    });
+
+    const bid1 = await Bid.create({
+      accepted: false,
+      quantity: 30,
+      price: 50,
+      user: user2._id,
+      auction: auction1._id
+    });
+
+    return request(app)
+      .delete(`/api/v1/bids/${bid1._id}`)
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: expect.any(String),
+          quantity: expect.any(Number),
+          price: expect.any(Number),
+          user: user2._id.toString(),
+          auction: auction1._id.toString()
+      });
+  });
 });
 
 // accepted: {
