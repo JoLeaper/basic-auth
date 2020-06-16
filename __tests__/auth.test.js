@@ -20,4 +20,19 @@ describe('basic-auth routes', () => {
     await mongoose.connection.close();
     return mongod.stop();
   });
+
+  it('creates a user', async() => {
+    return request(app)
+      .post('/api/v1/auth/')
+      .send({
+        email: 'jj@gmail.com',
+        password: 'jjissupercool'
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: expect.anything(),
+          email: 'jj@gmail.com'
+        });
+      });
+  });
 });
