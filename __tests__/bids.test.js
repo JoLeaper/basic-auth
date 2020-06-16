@@ -47,6 +47,7 @@ describe('basic-auth routes', () => {
 
     return request(app)
       .post('/api/v1/bids/')
+      .auth('jj@gmail.com', 'jjissupercool')
       .send({
         accepted: false,
         quantity: 30,
@@ -96,6 +97,7 @@ describe('basic-auth routes', () => {
 
     return request(app)
       .get(`/api/v1/bids/${bid1._id}`)
+      .auth('jj@gmail.com', 'jjissupercool')
       .then(res => {
         expect(res.body).toEqual({
           _id: expect.any(String),
@@ -148,6 +150,7 @@ describe('basic-auth routes', () => {
 
     return request(app)
       .delete(`/api/v1/bids/${bid1._id}`)
+      .auth('jj@gmail.com', 'jjissupercool')
       .then(res => {
         expect(res.body).toEqual({
           _id: expect.any(String),

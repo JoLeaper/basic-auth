@@ -32,6 +32,7 @@ describe('basic-auth routes', () => {
 
     return request(app)
       .post('/api/v1/auctions/')
+      .auth('jj@gmail.com', 'jjissupercool')
       .send({
         title: 'The First Auction!',
         description: 'This is the first auction!',
@@ -75,6 +76,7 @@ describe('basic-auth routes', () => {
 
     return request(app)
       .get('/api/v1/auctions/')
+      .auth('jj@gmail.com', 'jjissupercool')
       .then(res => {
         expect(res.body).toEqual([{
           _id: expect.anything(),
@@ -123,6 +125,7 @@ describe('basic-auth routes', () => {
 
     return request(app)
       .get(`/api/v1/auctions/${auction1._id}`)
+      .auth('jj@gmail.com', 'jjissupercool')
       .then(res => {
         expect(res.body).toEqual({
           _id: expect.anything(),
@@ -140,37 +143,3 @@ describe('basic-auth routes', () => {
   });
   
 });
-
-// title: {
-//   type: String,
-//   required: true
-// },
-// description: {
-//   type: String,
-//   required: true
-// },
-// quantity: {
-//   type: Number,
-//   required: true
-// },
-// user: {
-//   type: Schema.Types.ObjectId,
-//   ref: 'User'
-// }, 
-// bids: [{
-//   type: Schema.Types.ObjectId,
-//   ref: 'Bid'
-// }],
-
-
-// {
-//   _id: expect.anything(),
-//   title: expect.any(String),
-//   description: expect.any(String),
-//   quantity: expect.any(Number),
-//   endDate: expect.any(String),
-//   bids: [],
-//   user: {
-//     _id: expect.anything(),
-//     email: expect.any(String),
-//   }

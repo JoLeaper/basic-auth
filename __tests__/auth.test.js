@@ -23,7 +23,7 @@ describe('basic-auth routes', () => {
 
   it('creates a user', async() => {
     return request(app)
-      .post('/api/v1/users/')
+      .post('/api/v1/auth/')
       .send({
         email: 'jj@gmail.com',
         password: 'jjissupercool'
